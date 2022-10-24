@@ -3,6 +3,7 @@ package se.ecutbildning.cleanice.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import se.ecutbildning.cleanice.models.Enums.ERole;
 
 import javax.persistence.*;
 

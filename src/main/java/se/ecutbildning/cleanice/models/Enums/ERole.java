@@ -1,4 +1,4 @@
-package se.ecutbildning.cleanice.models;
+package se.ecutbildning.cleanice.models.Enums;
 
 public enum ERole {
     ROLE_USER,

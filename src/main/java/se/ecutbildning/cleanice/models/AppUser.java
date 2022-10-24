@@ -44,9 +44,6 @@ public class AppUser {
     )
     private Set<Role> roles = new HashSet<>();
 
-//    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
-//    private List<Cleaning> cleanings;
-
     public AppUser(String username, String email, String password) {
         this.username = username;
         this.email = email;

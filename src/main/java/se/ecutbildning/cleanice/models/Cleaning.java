@@ -3,6 +3,7 @@ package se.ecutbildning.cleanice.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import se.ecutbildning.cleanice.models.Enums.ECleaning;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -28,12 +29,19 @@ public class Cleaning {
     @Column(nullable = false)
     private ECleaning cleaningType;
 
+    @ManyToOne
+    private Customer customer;
+
+    @ManyToOne
+    private Cleaner cleaner;
+
     @Column
     private boolean done;
 
-    public Cleaning(Date cleaningDate, String location, ECleaning cleaningType) {
+    public Cleaning(Customer customer, Date cleaningDate, ECleaning cleaningType) {
+        this.customer = customer;
         this.cleaningDate = cleaningDate;
-        this.location = location;
+        this.location = customer.getLocation();
         this.cleaningType = cleaningType;
     }
 }
