@@ -1,4 +1,4 @@
-package se.ecutbildning.cleanice.models;
+package se.ecutbildning.cleanice.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

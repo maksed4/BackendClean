@@ -1,9 +1,9 @@
-package se.ecutbildning.cleanice.models;
+package se.ecutbildning.cleanice.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import se.ecutbildning.cleanice.models.Enums.ECustomer;
+import se.ecutbildning.cleanice.entities.Enums.ECustomer;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Customer {
     private Long id;
 
     @Column(nullable = false)
-    private String location;
+    private String address;
 
     @Enumerated
     @Column(nullable = false)
@@ -30,10 +30,10 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Cleaning> cleanings;
 
-    public Customer(AppUser user, String location, ECustomer customerType) {
+    public Customer(AppUser user, String address, ECustomer customerType) {
         this.id = user.getId();
         this.user = user;
-        this.location = location;
+        this.address = address;
         this.customerType = customerType;
     }
 }

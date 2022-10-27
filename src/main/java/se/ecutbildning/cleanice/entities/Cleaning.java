@@ -1,9 +1,9 @@
-package se.ecutbildning.cleanice.models;
+package se.ecutbildning.cleanice.entities;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import se.ecutbildning.cleanice.models.Enums.ECleaning;
+import se.ecutbildning.cleanice.entities.Enums.ECleaning;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -41,7 +41,7 @@ public class Cleaning {
     public Cleaning(Customer customer, Date cleaningDate, ECleaning cleaningType) {
         this.customer = customer;
         this.cleaningDate = cleaningDate;
-        this.location = customer.getLocation();
+        this.location = customer.getAddress();
         this.cleaningType = cleaningType;
     }
 }

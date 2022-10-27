@@ -1,4 +1,4 @@
-package se.ecutbildning.cleanice.models.Enums;
+package se.ecutbildning.cleanice.entities.Enums;
 
 public enum ECustomer {
     PRIVATE_CUSTOMER,
