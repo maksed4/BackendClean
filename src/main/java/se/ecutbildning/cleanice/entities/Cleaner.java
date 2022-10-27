@@ -3,7 +3,7 @@ package se.ecutbildning.cleanice.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import se.ecutbildning.cleanice.entities.dto.CleanerResponseDTO;
+import se.ecutbildning.cleanice.entities.dto.CleanerDTO;
 
 import javax.persistence.*;
 import java.util.List;
@@ -30,8 +30,8 @@ public class Cleaner {
     @OneToMany(mappedBy = "cleaner", cascade = CascadeType.ALL)
     private List<Cleaning> cleanings;
 
-    public CleanerResponseDTO toResponseDTO() {
-        return new CleanerResponseDTO(id, firstname, lastname, city);
+    public CleanerDTO toResponseDTO() {
+        return new CleanerDTO(id, firstname, lastname, city);
     }
 
     public Cleaner(AppUser user, String firstname, String lastname, String city) {

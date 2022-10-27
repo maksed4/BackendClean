@@ -2,7 +2,7 @@ package se.ecutbildning.cleanice.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.ecutbildning.cleanice.entities.dto.CustomerSignUpRequest;
+import se.ecutbildning.cleanice.entities.dto.CustomerDTO;
 import se.ecutbildning.cleanice.entities.dto.LoginRequestDTO;
 import se.ecutbildning.cleanice.entities.dto.SignUpRequestDTO;
 import se.ecutbildning.cleanice.entities.dto.WhoAmIDTO;
@@ -44,15 +44,15 @@ public class LoginController {
     }
 
     @PostMapping("/customer-signup")
-    public ResponseEntity<?> registerCustomer(@Valid @RequestBody CustomerSignUpRequest customerSignUpRequest) {
+    public ResponseEntity<?> registerCustomer(@Valid @RequestBody CustomerDTO customerDTO) {
         return loginService.customerSignUp(
-                customerSignUpRequest.id(),
-                customerSignUpRequest.firstname(),
-                customerSignUpRequest.lastname(),
-                customerSignUpRequest.address(),
-                customerSignUpRequest.zipcode(),
-                customerSignUpRequest.city(),
-                customerSignUpRequest.customerType()
+                customerDTO.id(),
+                customerDTO.firstname(),
+                customerDTO.lastname(),
+                customerDTO.address(),
+                customerDTO.zipcode(),
+                customerDTO.city(),
+                customerDTO.customerType()
         );
     }
 

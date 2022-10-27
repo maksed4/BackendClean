@@ -3,7 +3,7 @@ package se.ecutbildning.cleanice.controllers;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.ecutbildning.cleanice.entities.Customer;
-import se.ecutbildning.cleanice.entities.dto.CustomerResponseDTO;
+import se.ecutbildning.cleanice.entities.dto.CustomerDTO;
 import se.ecutbildning.cleanice.service.CustomerService;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class CustomerController {
 
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<CustomerResponseDTO> getAllCustomers() {
+    public List<CustomerDTO> getAllCustomers() {
         return customerService.getAllCustomers()
                 .stream()
                 .map(Customer::toCustomerResponseDTO)

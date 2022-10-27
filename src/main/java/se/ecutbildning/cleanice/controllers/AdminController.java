@@ -2,8 +2,7 @@ package se.ecutbildning.cleanice.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.ecutbildning.cleanice.entities.dto.CleanerSignUpRequest;
-import se.ecutbildning.cleanice.entities.dto.CustomerSignUpRequest;
+import se.ecutbildning.cleanice.entities.dto.CleanerDTO;
 import se.ecutbildning.cleanice.service.AdminService;
 
 import javax.validation.Valid;
@@ -22,12 +21,12 @@ public class AdminController {
     }
 
     @PostMapping("/cleaner-signup")
-    public ResponseEntity<?> registerCleaner(@Valid @RequestBody CleanerSignUpRequest cleanerSignUpRequest) {
+    public ResponseEntity<?> registerCleaner(@Valid @RequestBody CleanerDTO cleanerDTO) {
         return adminService.cleanerSignUp(
-                cleanerSignUpRequest.id(),
-                cleanerSignUpRequest.firstname(),
-                cleanerSignUpRequest.lastname(),
-                cleanerSignUpRequest.city()
+                cleanerDTO.id(),
+                cleanerDTO.firstname(),
+                cleanerDTO.lastname(),
+                cleanerDTO.city()
         );
     }
 

@@ -4,8 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import se.ecutbildning.cleanice.entities.Enums.ECustomer;
-import se.ecutbildning.cleanice.entities.Enums.ERole;
-import se.ecutbildning.cleanice.entities.dto.CustomerResponseDTO;
+import se.ecutbildning.cleanice.entities.dto.CustomerDTO;
 
 import javax.persistence.*;
 import java.util.List;
@@ -54,8 +53,8 @@ public class Customer {
         this.city = city;
     }
 
-    public CustomerResponseDTO toCustomerResponseDTO() {
-        return new CustomerResponseDTO(
+    public CustomerDTO toCustomerResponseDTO() {
+        return new CustomerDTO(
                 id, firstname, lastname,
                 address, zipcode, city, customerType
         );
