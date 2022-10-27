@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .cors().and()
                 .authorizeRequests(auth -> auth
                         .antMatchers("/api/auth/**").permitAll()
+                        .antMatchers("/api/admin").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(userDetailsService)
