@@ -17,11 +17,9 @@ import java.util.List;
 public class AppUsersController {
 
     private final AppUsersService appUsersService;
-    private final AuthService authService;
 
-    public AppUsersController(AppUsersService appUsersService, AuthService authService) {
+    public AppUsersController(AppUsersService appUsersService) {
         this.appUsersService = appUsersService;
-        this.authService = authService;
     }
 
     @GetMapping("/all")

@@ -2,14 +2,13 @@ package se.ecutbildning.cleanice.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.ecutbildning.cleanice.entities.Enums.ERole;
+import se.ecutbildning.cleanice.entities.dto.CustomerSignUpRequest;
 import se.ecutbildning.cleanice.entities.dto.LoginRequestDTO;
 import se.ecutbildning.cleanice.entities.dto.SignUpRequestDTO;
 import se.ecutbildning.cleanice.entities.dto.WhoAmIDTO;
 import se.ecutbildning.cleanice.security.service.LoginService;
 
 import javax.validation.Valid;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -36,7 +35,25 @@ public class LoginController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequestDTO signUpRequestDTO) {
-        return loginService.signUp(signUpRequestDTO.username(), signUpRequestDTO.password(), signUpRequestDTO.email(), signUpRequestDTO.roles());
+        return loginService.signUp(
+                signUpRequestDTO.username(),
+                signUpRequestDTO.password(),
+                signUpRequestDTO.email(),
+                signUpRequestDTO.roles()
+        );
+    }
+
+    @PostMapping("/customer-signup")
+    public ResponseEntity<?> registerCustomer(@Valid @RequestBody CustomerSignUpRequest customerSignUpRequest) {
+        return loginService.customerSignUp(
+                customerSignUpRequest.id(),
+                customerSignUpRequest.firstname(),
+                customerSignUpRequest.lastname(),
+                customerSignUpRequest.address(),
+                customerSignUpRequest.zipcode(),
+                customerSignUpRequest.city(),
+                customerSignUpRequest.customerType()
+        );
     }
 
 }

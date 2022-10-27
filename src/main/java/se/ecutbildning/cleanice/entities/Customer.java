@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import se.ecutbildning.cleanice.entities.Enums.ECustomer;
+import se.ecutbildning.cleanice.entities.Enums.ERole;
+import se.ecutbildning.cleanice.entities.dto.CustomerResponseDTO;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter @Setter
@@ -19,21 +22,42 @@ public class Customer {
 
     @Id
     private Long id;
-
+    @Column(nullable = false)
+    private String firstname;
+    @Column(nullable = false)
+    private String lastname;
     @Column(nullable = false)
     private String address;
-
-    @Enumerated
     @Column(nullable = false)
-    private ECustomer customerType;
+    private String zipcode;
+    @Column(nullable = false)
+    private String city;
+
+    @ElementCollection(targetClass = ECustomer.class, fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Set<ECustomer> customerType;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Cleaning> cleanings;
 
-    public Customer(AppUser user, String address, ECustomer customerType) {
-        this.id = user.getId();
+    public Customer(
+            AppUser user, String firstname, String lastname,
+            String address, String zipcode, String city
+    ) {
         this.user = user;
+        this.id = user.getId();
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.address = address;
-        this.customerType = customerType;
+        this.zipcode = zipcode;
+        this.city = city;
+    }
+
+    public CustomerResponseDTO toCustomerResponseDTO() {
+        return new CustomerResponseDTO(
+                id, firstname, lastname,
+                address, zipcode, city, customerType
+        );
     }
 }

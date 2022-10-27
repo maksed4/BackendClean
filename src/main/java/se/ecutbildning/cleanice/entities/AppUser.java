@@ -36,13 +36,12 @@ public class AppUser implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column
     @Setter
-    Set<ERole> roles;
+    private Set<ERole> roles;
 
-    public AppUser(String username, String email, String password /*, Set<Role> roles*/) {
+    public AppUser(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
-//        this.roles = roles;
     }
 
     public AppUserResponseDTO toResponseDTO() {

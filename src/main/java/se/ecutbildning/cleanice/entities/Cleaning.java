@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import se.ecutbildning.cleanice.entities.Enums.ECleaning;
+import se.ecutbildning.cleanice.entities.Enums.ECustomer;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter @Setter
@@ -26,8 +28,10 @@ public class Cleaning {
     @Column(nullable = false)
     private String location;
 
-    @Column(nullable = false)
-    private ECleaning cleaningType;
+    @ElementCollection(targetClass = ECleaning.class, fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    @Column
+    private Set<ECleaning> cleaningType;
 
     @ManyToOne
     private Customer customer;
@@ -38,10 +42,9 @@ public class Cleaning {
     @Column
     private boolean done;
 
-    public Cleaning(Customer customer, Date cleaningDate, ECleaning cleaningType) {
+    public Cleaning(Customer customer, Date cleaningDate) {
         this.customer = customer;
         this.cleaningDate = cleaningDate;
         this.location = customer.getAddress();
-        this.cleaningType = cleaningType;
     }
 }

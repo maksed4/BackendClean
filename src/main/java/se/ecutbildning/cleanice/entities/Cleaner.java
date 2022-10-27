@@ -4,10 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter @Setter
@@ -21,8 +19,21 @@ public class Cleaner {
     @Id
     private Long id;
 
-    public Cleaner(AppUser user) {
+    @Column(nullable = false)
+    private String firstname;
+    @Column(nullable = false)
+    private String lastname;
+    @Column(nullable = false)
+    private String city;
+
+    @OneToMany(mappedBy = "cleaner", cascade = CascadeType.ALL)
+    private List<Cleaning> cleanings;
+
+    public Cleaner(AppUser user, String firstname, String lastname, String city) {
         this.id = user.getId();
         this.user = user;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.city = city;
     }
 }
