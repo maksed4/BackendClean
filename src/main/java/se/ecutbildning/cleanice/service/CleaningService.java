@@ -72,6 +72,14 @@ public class CleaningService {
 
     public ResponseEntity<?> assign(AssignCleanerDTO assignCleanerDTO) {
         Cleaning cleaning = cleaningRepository.findById(assignCleanerDTO.cleaningId()).orElseThrow();
+
+        /** CHECK IF CLEANING DATE EQUALS OTHER CLEANING DATE **/
+        for (Cleaning clean : cleaningRepository.findAll()) {
+            if (clean.getCleaningDate().equals(cleaning.getCleaningDate())) {
+                return ResponseEntity.badRequest().body(new MessageResponse("Cleaner already assigned"));
+            }
+        }
+
         Cleaner cleaner = cleanerRepository.findById(assignCleanerDTO.cleanerId()).orElseThrow();
         cleaning.setCleaner(cleaner);
 
