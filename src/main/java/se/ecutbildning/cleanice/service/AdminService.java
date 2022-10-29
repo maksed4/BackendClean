@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import se.ecutbildning.cleanice.entities.AppUser;
 import se.ecutbildning.cleanice.entities.Cleaner;
+import se.ecutbildning.cleanice.entities.dto.CleanerDTO;
 import se.ecutbildning.cleanice.payload.response.MessageResponse;
 import se.ecutbildning.cleanice.repository.AppUserRepository;
 import se.ecutbildning.cleanice.repository.CleanerRepository;
@@ -19,10 +20,10 @@ public class AdminService {
         this.cleanerRepository = cleanerRepository;
     }
 
-    public ResponseEntity<?> cleanerSignUp(long id, String firstname, String lastname, String city) {
-        AppUser user = appUserRepository.findAppUserById(id).orElseThrow();
+    public ResponseEntity<?> cleanerSignUp(CleanerDTO cleanerDTO) {
+        AppUser user = appUserRepository.findAppUserById(cleanerDTO.id()).orElseThrow();
 
-        Cleaner cleaner = new Cleaner(user, firstname, lastname, city);
+        Cleaner cleaner = new Cleaner(user, cleanerDTO.firstname(), cleanerDTO.lastname(), cleanerDTO.city());
 
         cleanerRepository.save(cleaner);
         return ResponseEntity.ok(new MessageResponse("Cleaner successfully registered"));

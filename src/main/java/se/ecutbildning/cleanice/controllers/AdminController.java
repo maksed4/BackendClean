@@ -22,12 +22,7 @@ public class AdminController {
 
     @PostMapping("/cleaner-signup")
     public ResponseEntity<?> registerCleaner(@Valid @RequestBody CleanerDTO cleanerDTO) {
-        return adminService.cleanerSignUp(
-                cleanerDTO.id(),
-                cleanerDTO.firstname(),
-                cleanerDTO.lastname(),
-                cleanerDTO.city()
-        );
+        return adminService.cleanerSignUp(cleanerDTO);
     }
 
 }

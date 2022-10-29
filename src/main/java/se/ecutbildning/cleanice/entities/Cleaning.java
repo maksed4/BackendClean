@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import se.ecutbildning.cleanice.entities.Enums.ECleaning;
-import se.ecutbildning.cleanice.entities.Enums.ECustomer;
+import se.ecutbildning.cleanice.entities.dto.CleaningDTO;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -41,6 +41,10 @@ public class Cleaning {
 
     @Column
     private boolean done;
+
+    public CleaningDTO toResponseDTO() { return new CleaningDTO(
+            id, cleaningDate, cleaningLength, location, cleaningType, customer.getId(), cleaner, done
+    ); }
 
     public Cleaning(Customer customer, Date cleaningDate) {
         this.customer = customer;
