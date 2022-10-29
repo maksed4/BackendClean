@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.ecutbildning.cleanice.entities.Cleaning;
+import se.ecutbildning.cleanice.entities.dto.AssignCleanerDTO;
 import se.ecutbildning.cleanice.entities.dto.CleaningDTO;
 import se.ecutbildning.cleanice.service.CleaningService;
 
@@ -39,5 +40,10 @@ public class CleaningController {
         return cleaningService.bookACleaning(cleaningRequestDTO);
     }
 
+    @PutMapping("/assign")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> assignCleaner(@Valid @RequestBody AssignCleanerDTO assignCleanerDTO) {
+        return cleaningService.assign(assignCleanerDTO);
+    }
 
 }

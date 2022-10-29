@@ -2,9 +2,11 @@ package se.ecutbildning.cleanice.service;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import se.ecutbildning.cleanice.entities.Cleaner;
 import se.ecutbildning.cleanice.entities.Cleaning;
 import se.ecutbildning.cleanice.entities.Customer;
 import se.ecutbildning.cleanice.entities.Enums.ECleaning;
+import se.ecutbildning.cleanice.entities.dto.AssignCleanerDTO;
 import se.ecutbildning.cleanice.entities.dto.CleaningDTO;
 import se.ecutbildning.cleanice.payload.response.MessageResponse;
 import se.ecutbildning.cleanice.repository.CleanerRepository;
@@ -66,5 +68,14 @@ public class CleaningService {
         cleaning.setCleaningType(cleaningTypes);
         cleaningRepository.save(cleaning);
         return ResponseEntity.ok(new MessageResponse("Cleaning booked"));
+    }
+
+    public ResponseEntity<?> assign(AssignCleanerDTO assignCleanerDTO) {
+        Cleaning cleaning = cleaningRepository.findById(assignCleanerDTO.cleaningId()).orElseThrow();
+        Cleaner cleaner = cleanerRepository.findById(assignCleanerDTO.cleanerId()).orElseThrow();
+        cleaning.setCleaner(cleaner);
+
+        cleaningRepository.save(cleaning);
+        return ResponseEntity.ok(new MessageResponse("Cleaner assigned"));
     }
 }
