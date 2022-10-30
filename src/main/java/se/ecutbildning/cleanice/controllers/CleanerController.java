@@ -36,7 +36,7 @@ public class CleanerController {
     }
 
     @PutMapping("/completed")
-    @PreAuthorize("@authService.idMatchesUser(#id)")
+    @PreAuthorize("hasRole('CLEANER')")
     public ResponseEntity<?> cleaningCompleted(@Valid @RequestBody CleaningCompletedDTO cleaningCompletedDTO) {
         return cleanerService.completedCleaning(cleaningCompletedDTO);
     }

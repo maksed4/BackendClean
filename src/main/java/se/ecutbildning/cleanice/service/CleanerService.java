@@ -3,6 +3,7 @@ package se.ecutbildning.cleanice.service;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import se.ecutbildning.cleanice.entities.CleanAssign;
+import se.ecutbildning.cleanice.entities.Cleaner;
 import se.ecutbildning.cleanice.entities.Cleaning;
 import se.ecutbildning.cleanice.entities.dto.CleaningCompletedDTO;
 import se.ecutbildning.cleanice.payload.response.MessageResponse;
@@ -51,10 +52,11 @@ public class CleanerService {
 
     public ResponseEntity<?> completedCleaning(CleaningCompletedDTO cleaningCompletedDTO) {
         Cleaning cleaning = cleaningRepository.findById(cleaningCompletedDTO.cleaningId()).orElseThrow();
+        Cleaner cleaner = cleanAssignRepository.findById(cleaningCompletedDTO.cleaningId()).orElseThrow().getCleaner();
 
         /** CHECK IF CLEANERS ASSIGNMENT **/
-//        if (cleaning.getCleaner().getId() != cleaningCompletedDTO.cleanerId())
-//            return ResponseEntity.badRequest().body(new MessageResponse("Not your job!"));
+        if (cleaner.getId() != cleaningCompletedDTO.cleanerId())
+            return ResponseEntity.badRequest().body(new MessageResponse("Not your job!"));
 
         cleaning.setDone(cleaningCompletedDTO.isCompleted());
         cleaningRepository.save(cleaning);
