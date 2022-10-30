@@ -4,10 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import se.ecutbildning.cleanice.entities.Cleaning;
-import se.ecutbildning.cleanice.entities.dto.AssignCleanerDTO;
-import se.ecutbildning.cleanice.entities.dto.CleaningCompletedDTO;
-import se.ecutbildning.cleanice.entities.dto.CleaningDTO;
-import se.ecutbildning.cleanice.entities.dto.CleaningRequestDTO;
+import se.ecutbildning.cleanice.entities.dto.*;
 import se.ecutbildning.cleanice.service.CleanerService;
 
 import javax.validation.Valid;
@@ -39,6 +36,12 @@ public class CleanerController {
     @PreAuthorize("hasRole('CLEANER')")
     public ResponseEntity<?> cleaningCompleted(@Valid @RequestBody CleaningCompletedDTO cleaningCompletedDTO) {
         return cleanerService.completedCleaning(cleaningCompletedDTO);
+    }
+
+    @GetMapping("/{id}")
+    @PreAuthorize("@authService.idMatchesUser(#id)")
+    public ResponseEntity<CleanerDTO> cleanerInfo(@PathVariable("id") long id) {
+        return cleanerService.getCleanerInfo(id);
     }
 
 }

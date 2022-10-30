@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import se.ecutbildning.cleanice.entities.CleanAssign;
 import se.ecutbildning.cleanice.entities.Cleaner;
 import se.ecutbildning.cleanice.entities.Cleaning;
+import se.ecutbildning.cleanice.entities.dto.CleanerDTO;
 import se.ecutbildning.cleanice.entities.dto.CleaningCompletedDTO;
 import se.ecutbildning.cleanice.payload.response.MessageResponse;
 import se.ecutbildning.cleanice.repository.CleanAssignRepository;
@@ -61,5 +62,10 @@ public class CleanerService {
         cleaning.setDone(cleaningCompletedDTO.isCompleted());
         cleaningRepository.save(cleaning);
         return ResponseEntity.ok(new MessageResponse("Cleaning is completed: " + cleaningCompletedDTO.isCompleted()));
+    }
+
+    public ResponseEntity<CleanerDTO> getCleanerInfo(long id) {
+        CleanerDTO cleanerInfo = cleanerRepository.findById(id).orElseThrow().toResponseDTO();
+        return ResponseEntity.ok(cleanerInfo);
     }
 }
