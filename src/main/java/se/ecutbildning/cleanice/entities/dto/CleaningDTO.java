@@ -10,6 +10,6 @@ import java.util.Set;
 public record CleaningDTO(
         Long id, Date cleaningDate, int cleaningLength,
         String location, Set<ECleaning> cleaningType,
-        long customerId, Cleaner cleaner, boolean done
+        long customerId, boolean done
         ) {
 }

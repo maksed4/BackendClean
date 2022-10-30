@@ -28,7 +28,7 @@ public class Cleaner {
     private String city;
 
     @OneToMany(mappedBy = "cleaner", cascade = CascadeType.ALL)
-    private List<Cleaning> cleanings;
+    private List<CleanAssign> cleanings;
 
     public CleanerDTO toResponseDTO() {
         return new CleanerDTO(id, firstname, lastname, city);

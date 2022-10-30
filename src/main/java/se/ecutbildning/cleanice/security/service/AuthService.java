@@ -9,13 +9,13 @@ import java.util.Set;
 @Service
 public class AuthService {
 
-    public static boolean isAdmin() {
+    public static boolean idMatchesUser(long id) {
         AppUser appUser = (AppUser) SecurityContextHolder
                 .getContext()
                 .getAuthentication()
                 .getPrincipal();
 
-        return appUser.getAuthorities().contains(Set.of("ADMIN"));
+        return appUser.getId() == id;
     }
 
 

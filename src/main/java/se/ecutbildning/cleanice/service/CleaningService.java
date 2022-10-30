@@ -2,6 +2,7 @@ package se.ecutbildning.cleanice.service;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import se.ecutbildning.cleanice.entities.CleanAssign;
 import se.ecutbildning.cleanice.entities.Cleaner;
 import se.ecutbildning.cleanice.entities.Cleaning;
 import se.ecutbildning.cleanice.entities.Customer;
@@ -9,6 +10,7 @@ import se.ecutbildning.cleanice.entities.Enums.ECleaning;
 import se.ecutbildning.cleanice.entities.dto.AssignCleanerDTO;
 import se.ecutbildning.cleanice.entities.dto.CleaningDTO;
 import se.ecutbildning.cleanice.payload.response.MessageResponse;
+import se.ecutbildning.cleanice.repository.CleanAssignRepository;
 import se.ecutbildning.cleanice.repository.CleanerRepository;
 import se.ecutbildning.cleanice.repository.CleaningRepository;
 import se.ecutbildning.cleanice.repository.CustomerRepository;
@@ -25,11 +27,13 @@ public class CleaningService {
     private final CleaningRepository cleaningRepository;
     private final CustomerRepository customerRepository;
     private final CleanerRepository cleanerRepository;
+    private final CleanAssignRepository cleanAssignRepository;
 
-    public CleaningService(CleaningRepository cleaningRepository, CustomerRepository customerRepository, CleanerRepository cleanerRepository) {
+    public CleaningService(CleaningRepository cleaningRepository, CustomerRepository customerRepository, CleanerRepository cleanerRepository, CleanAssignRepository cleanAssignRepository) {
         this.cleaningRepository = cleaningRepository;
         this.customerRepository = customerRepository;
         this.cleanerRepository = cleanerRepository;
+        this.cleanAssignRepository = cleanAssignRepository;
     }
 
     public List<Cleaning> getAllCleanings() {
@@ -74,16 +78,34 @@ public class CleaningService {
         Cleaning cleaning = cleaningRepository.findById(assignCleanerDTO.cleaningId()).orElseThrow();
 
         /** CHECK IF CLEANING DATE EQUALS OTHER CLEANING DATE **/
-        for (Cleaning clean : cleaningRepository.findAll()) {
-            if (clean.getCleaningDate().equals(cleaning.getCleaningDate())) {
-                return ResponseEntity.badRequest().body(new MessageResponse("Cleaner already assigned"));
+        for (CleanAssign cleanAssign : cleanAssignRepository
+                .findAll()
+                .stream()
+                .filter(cleanAssign -> cleanAssign.getCleaner().getId() == assignCleanerDTO.cleanerId())
+                .toList()
+        ) {
+            for (Cleaning clean : cleaningRepository
+                    .findAll()
+                    .stream()
+                    .filter(cleaning1 -> cleaning1.getId() != cleaning.getId())
+                    .toList()
+            ) {
+                if (
+                        cleanAssign.getCleaner().getId() == assignCleanerDTO.cleanerId() &&
+                        cleanAssign.getCleaning().getId() != cleaning.getId()
+                ) {
+                    if (
+                            clean.getCleaningDate().equals(cleaning.getCleaningDate()) &&
+                            clean.getCleaningDate().getTime() == cleaning.getCleaningDate().getTime()
+                    ) {
+                        return ResponseEntity.badRequest().body(new MessageResponse("Cleaner already assigned"));
+                    }
+                }
             }
         }
-
         Cleaner cleaner = cleanerRepository.findById(assignCleanerDTO.cleanerId()).orElseThrow();
-        cleaning.setCleaner(cleaner);
-
-        cleaningRepository.save(cleaning);
+        CleanAssign cleanAssign = new CleanAssign(cleaning, cleaner);
+        cleanAssignRepository.save(cleanAssign);
         return ResponseEntity.ok(new MessageResponse("Cleaner assigned"));
     }
 }

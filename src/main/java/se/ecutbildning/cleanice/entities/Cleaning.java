@@ -8,6 +8,7 @@ import se.ecutbildning.cleanice.entities.dto.CleaningDTO;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -36,14 +37,14 @@ public class Cleaning {
     @ManyToOne
     private Customer customer;
 
-    @ManyToOne
-    private Cleaner cleaner;
+    @OneToOne(mappedBy = "cleaning", cascade = CascadeType.ALL)
+    private CleanAssign cleanings;
 
     @Column
     private boolean done;
 
     public CleaningDTO toResponseDTO() { return new CleaningDTO(
-            id, cleaningDate, cleaningLength, location, cleaningType, customer.getId(), cleaner, done
+            id, cleaningDate, cleaningLength, location, cleaningType, customer.getId(), done
     ); }
 
     public Cleaning(Customer customer, Date cleaningDate) {
